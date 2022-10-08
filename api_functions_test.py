@@ -91,8 +91,9 @@ def dividend_over_timeframe(startTime: int, endTime: int, asset: Optional[str] =
 
 def get_fiat_market_value(asset: str, startTime: int, endTime: int) -> float:
     path = find_path(asset, LOCAL_CURRENCY)
+    if path == "Symbol Not Found":
+        return 0
     val = 1
-    print(path)
     while len(path) > 2:
         # print(path[0]+path[1])
         val *= float(client.klines(path[0]+path[1], '1m', startTime=startTime, endTime=endTime)[0][1])
