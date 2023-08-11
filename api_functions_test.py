@@ -75,17 +75,21 @@ def dividend_over_timeframe(startTime: int, endTime: int, asset: Optional[str] =
 
     # with open('divident_request.json', 'w') as json_file:
     #     json.dump(dividend_request, json_file)
+    counter = 0
     for dividend_payout in dividend_request['rows']:
         current_asset = dividend_payout['asset']
         amount = float(dividend_payout['amount'])
         divTime = dividend_payout['divTime']
         start = divTime
         end = divTime + 60000
-        print(current_asset + LOCAL_CURRENCY, start, end)
+        counter+=1
+        # print(counter, current_asset + LOCAL_CURRENCY, start, end)
         # oneTrade, = client.agg_trades(asset+LOCAL_CURRENCY, startTime=startTime, endTime=endTime, limit=1)
         marketValue = get_fiat_market_value(current_asset, start, end)
         
-        totalFiat += amount*marketValue
+        fiat = amount*marketValue
+        print(f"{counter}, {marketValue}, {fiat}")
+        totalFiat += fiat
 
     return totalFiat
 
